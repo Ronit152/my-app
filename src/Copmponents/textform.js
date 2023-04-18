@@ -1,20 +1,26 @@
 import React, {useState, useEffect} from "react";
+// import {getAllData} from './getAllData'
+import { getCookie } from "./Login";
+
 // import { useNavigate } from "react-router-dom";
 
-const getLocalItems= () =>{
-  let list = localStorage.getItem('list');
-  if(list){
-    return JSON.parse(list)
-  }else{
-    return[]
-  }
-}
+// const getLocalItems= () =>{
+//   let list = localStorage.getItem('list');
+//   if(list){
+//     return JSON.parse(list)
+//   }else{
+//     return[]
+//   }
+// }
+
+
 
 export default function TextForm(props) {
 
   const [response,setResponse] = useState({id:"" ,text:"",title:""})
-  const [items,setItems] = useState(getLocalItems()); 
- 
+  // const [info,setInfo] = useState({id:"" ,text:"",title:""})
+  const [items,setItems] = useState(props.fetchData); 
+
   // let navigate = useNavigate();
   const handleStoreInLocal=()=>{
 
@@ -34,12 +40,17 @@ export default function TextForm(props) {
       )
       props.setTogglebtnText(true);
       setResponse({id:'',text:"",title:""});
-      // let path = `/about`; 
-      // navigate(path);
+      // setData(props.items)
+      
     }else{
 
-    setItems([...items,response])
+    console.log(response)
+
+    setData(response)
+
     setResponse({id:'',text:"",title:""});
+      // let path = `/dashboard`; 
+      // navigate(path);
     }
   }
 
@@ -49,9 +60,38 @@ export default function TextForm(props) {
   },[props.data])
 
   // setItems to localstorage
-  useEffect(()=>{ 
-    localStorage.setItem("list", JSON.stringify(items))
-  },[items]);
+  // useEffect(()=>{ 
+  //   localStorage.setItem("list", JSON.stringify(items))
+  // },[items]);
+
+
+    async function setData(items) {
+      
+      const token = getCookie("Validtime");
+
+
+      console.log(props.token.token)
+      const url = "http://localhost:3000/users"
+      console.log(items)
+      
+      try {
+          const res = await fetch(url, {
+              method: 'POST',
+              body:JSON.stringify({user:items}) ,
+              headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+                  'authorization': `Bearer ${token}`,
+              }
+          })
+          
+          const data2 = await res.json();
+         
+          return data2;
+          
+      } catch (error) { console.log(error); }
+   
+    }
+    
 
   //set id to data
   useEffect(()=>{ 

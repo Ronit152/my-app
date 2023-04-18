@@ -12,7 +12,9 @@ function App() {
   const [alert, setAlert] = useState(null);
   const [togglebtnText, setTogglebtnText] = useState(true);
   const [data, setData] = useState({ id: "", text: "", title: "" });
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
+  const [fetchData, setFetchData] = useState([]);
+  // const [items, setItems] = useState([]);
 
   const showAlert = (message, type) => {
     setAlert({
@@ -37,6 +39,7 @@ function App() {
 
       showAlert("Light mode has been enabled", "success");
       console.log(token)
+      console.log(token.token)
     }
   };
 
@@ -48,12 +51,14 @@ function App() {
         <Alert alert={alert} />
         <div className="container">
           <Routes>
-        <Route exact path="/" element={<Login setToken={setToken} />}/>
+        <Route exact path="/" element={<Login  />}/>
             <Route
+           
               exact
               path="/dashboard"
               element={
-                <About setData={setData} setTogglebtnText={setTogglebtnText} />
+                <About setFetchData={setFetchData} fetchData={fetchData}
+                 setData={setData} setTogglebtnText={setTogglebtnText} />
               }
             />
             <Route
@@ -61,7 +66,10 @@ function App() {
               path="/add"
               element={
                 <TextForm
-
+                  // items={items}
+                  // setItems={setItems}
+                  setfetchData={setFetchData} fetchData={fetchData}
+                  setData={setData} 
                   data={data}
                   togglebtnText={togglebtnText}
                   setTogglebtnText={setTogglebtnText}

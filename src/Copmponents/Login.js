@@ -16,7 +16,31 @@ async function LoginUser(cred) {
     },
   });
   const data = await res.json();
-  return data;
+  return data
+}
+
+function setCookie(c_name, value, exminute) {
+  let extime = new Date();
+  console.log(extime);
+  extime.setMinutes(extime.getMinutes() + exminute);
+  console.log(exminute);
+
+  const c_value =
+    encodeURI(value) +
+    (exminute == null ? "" : "; expires=" + extime.toUTCString());
+  document.cookie = c_name + "=" + c_value;
+}
+
+export function getCookie(c_name) {
+  const nameEQ = c_name + "=";
+  let ca = document.cookie.split(";");
+
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
 }
 
 //    // 'Authorization': `bearer ${token}`,
@@ -31,8 +55,6 @@ export default function Login(props) {
   };
 
   const [cred, setCred] = useState({ username: "", password: "" });
-  console.log(cred);
-
 
   let nevigate = useNavigate();
 
@@ -46,7 +68,8 @@ export default function Login(props) {
     if (!!res.token) {
       let path = "/dashboard";
       nevigate(path);
-      
+      setCookie("Validtime", res.token, 5);
+
     } else {
       alert("Bad Credentials");
     }
