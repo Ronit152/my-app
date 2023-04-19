@@ -12,6 +12,7 @@ function App() {
   const [alert, setAlert] = useState(null);
   const [togglebtnText, setTogglebtnText] = useState(true);
   const [data, setData] = useState({ id: "", text: "", title: "" });
+ 
   // const [token, setToken] = useState("");
   const [fetchData, setFetchData] = useState([]);
   // const [items, setItems] = useState([]);
@@ -38,8 +39,7 @@ function App() {
       // document.body.style.colorScheme = 'light';
 
       showAlert("Light mode has been enabled", "success");
-      console.log(token)
-      console.log(token.token)
+
     }
   };
 
@@ -58,7 +58,7 @@ function App() {
               path="/dashboard"
               element={
                 <About setFetchData={setFetchData} fetchData={fetchData}
-                 setData={setData} setTogglebtnText={setTogglebtnText} />
+                 setData={setData} setTogglebtnText={setTogglebtnText} data={data} />
               }
             />
             <Route
@@ -66,7 +66,7 @@ function App() {
               path="/add"
               element={
                 <TextForm
-                  // items={items}
+                  // itemsr={items}
                   // setItems={setItems}
                   setfetchData={setFetchData} fetchData={fetchData}
                   setData={setData} 

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 // import '../images/background.img';
 
 async function LoginUser(cred) {
-  console.log(cred);
+
 
   const res = await fetch("http://localhost:3000/login", {
     method: "POST",
@@ -21,9 +21,8 @@ async function LoginUser(cred) {
 
 function setCookie(c_name, value, exminute) {
   let extime = new Date();
-  console.log(extime);
+
   extime.setMinutes(extime.getMinutes() + exminute);
-  console.log(exminute);
 
   const c_value =
     encodeURI(value) +
@@ -37,8 +36,8 @@ export function getCookie(c_name) {
 
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) == " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    while (c.charAt(0) === " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
   return null;
 }
@@ -63,12 +62,12 @@ export default function Login(props) {
 
     const res = await LoginUser(cred);
     console.log(res);
-    props.setToken(res);
+    // props.setToken(res);
 
     if (!!res.token) {
       let path = "/dashboard";
       nevigate(path);
-      setCookie("Validtime", res.token, 5);
+      setCookie("Validtime", res.token, 20);
 
     } else {
       alert("Bad Credentials");
