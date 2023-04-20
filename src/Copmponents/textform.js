@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 // import {getAllData} from './About'
 import { getCookie } from "./Login";
 import axios from "axios";
+import Navbar from "./Navbar";
+import Alert from "./Alert";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,33 +17,33 @@ import { useNavigate } from "react-router-dom";
 // }
 
 export default function TextForm(props) {
-  const token = getCookie("Validtime");
+  const token = getCookie("Token");
   const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  }
   const [response, setResponse] = useState({ id: "", text: "", title: "" });
 
   let navigate = useNavigate();
   const handleStore = () => {
     if (!response.title || !response.text) {
       return props.showAlert("You can't add empty data", "danger");
+
     } else if (props.data && !props.togglebtnText) {
       console.log(props.data);
       console.log(props.fetchData);
 
       props.fetchData.map((element) => {
         if (element.id === props.data.id) {
-          console.log(element.id === props.data.id);
 
           handleUpdateuser(element.id);
 
+          setResponse({ id: "", text: "", title: "" });
         }
 
         return element;
       });
 
-      setResponse({ id: "", text: "", title: "" });
       // handleStoreInServer(response)
     } else {
       console.log(response);
@@ -63,38 +65,19 @@ export default function TextForm(props) {
         }
       )
       .then(() => {
+        props.setData({id: "", title:'', text: ''})
         let path = `/dashboard`;
         navigate(path);
         props.setTogglebtnText(true);
-        setResponse({ id: "", text: "", title: "" });
       });
 
-    // const token = getCookie("Validtime");
-    // const updateUserByIdUrl = "http://localhost:3000/users/" + id ;
-    // try {
-    //     const res= await fetch(updateUserByIdUrl, {
-    //         method: 'PUT',
-    //         body:JSON.stringify({user: response}),
-    //         headers: {
-    //             'Content-type': 'application/json; charset=UTF-8',
-    //             'authorization': `Bearer ${token}`,
-    //         }
-    //     });
-    //     const data = await res.json();
-    //     return data;
-    // }
-    // catch(err) {
-    //     console.log(err.message);
-    // }
-
-    // getAllData();
-    // handleStoreInServer()
   };
 
-  // for updating the data
+  // set the data for update
   useEffect(() => {
     setResponse(props.data);
   }, [props.data]);
+
 
   // setItems to localstorage
   // useEffect(()=>{
@@ -102,10 +85,9 @@ export default function TextForm(props) {
   // },[items]);
 
   async function handleStoreInServer(items) {
-    const token = getCookie("Validtime");
-
+    const token = getCookie("Token");
     const url = "http://localhost:3000/users";
-    console.log(items);
+
 
     try {
       const res = await fetch(url, {
@@ -164,6 +146,8 @@ export default function TextForm(props) {
   return (
     <>
       <div className="container">
+      <Navbar title="TextUtiles" mode={props.mode} toggleMode={props.toggleMode} />
+            <Alert alert={props.alert} />
         <h1>{props.heading}</h1>
         <div className="mb-3">
           <textarea
@@ -195,20 +179,19 @@ export default function TextForm(props) {
         </div>
 
         <button className="btn btn-primary mx-1" onClick={handleStore}>
-          {props.togglebtnText ? "Save data" : "Update"}{" "}
+          {props.togglebtnText ? "Save data" : "Update"}
         </button>
         <button className="btn btn-primary mx-1" onClick={handleUpClick}>
-          Convert to uppercase{" "}
+          Convert to uppercase
         </button>
         <button className="btn btn-primary mx-1" onClick={handleCleartext}>
-          Clear Text{" "}
+          Clear Text
         </button>
       </div>
       <div className="container my-3">
         <h2> Your text summary</h2>
         <p>
-          {" "}
-          {response.text.split(" ").length} words and {response.text.length}{" "}
+          {response.text.split(" ").length} words and {response.text.length}
           characters
         </p>
       </div>

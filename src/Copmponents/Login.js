@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 // import axios from 'axios';
-// import '../css/main.css';
+import '../css/login.css';
 // import '../css/addform.css';
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 // import '../images/background.img';
+
+
 
 async function LoginUser(cred) {
 
@@ -19,32 +21,29 @@ async function LoginUser(cred) {
   return data
 }
 
-function setCookie(c_name, value, exminute) {
+const setCookie = (cookie_name, value, exminute) => {
   let extime = new Date();
 
   extime.setMinutes(extime.getMinutes() + exminute);
 
-  const c_value =
+  const cookie_value =
     encodeURI(value) +
     (exminute == null ? "" : "; expires=" + extime.toUTCString());
-  document.cookie = c_name + "=" + c_value;
+  document.cookie = cookie_name + "=" + cookie_value;
 }
 
-export function getCookie(c_name) {
-  const nameEQ = c_name + "=";
-  let ca = document.cookie.split(";");
 
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) === " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
+export const getCookie = (cookie_name) => {
+  const nameEQ = cookie_name + "=";
+  const cookies = document.cookie.split(";").map(cookie => cookie.trim());
+  const matchingCookie = cookies.find(cookie => cookie.startsWith(nameEQ));
+  return matchingCookie ? matchingCookie.substring(nameEQ.length) : null;
 }
+
 
 //    // 'Authorization': `bearer ${token}`,
 
-export default function Login(props) {
+export default function Login() {
   const handleUserOnChange = (event) => {
     setCred((prevState) => ({ ...prevState, username: event.target.value }));
   };
@@ -62,13 +61,13 @@ export default function Login(props) {
 
     const res = await LoginUser(cred);
     console.log(res);
+    
     // props.setToken(res);
 
     if (!!res.token) {
+      setCookie("Token", res.token, 20);
       let path = "/dashboard";
       nevigate(path);
-      setCookie("Validtime", res.token, 20);
-
     } else {
       alert("Bad Credentials");
     }

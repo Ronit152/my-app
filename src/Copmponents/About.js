@@ -2,28 +2,44 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "./Login";
 import axios from "axios"
+import Navbar from "./Navbar";
+import Alert from "./Alert";
 
-// import {getAllData} from './getAllData'
 
 export default function About(props) {
+  
+  const token = getCookie("Token");
 
-  const [mystyle, setmystyle] = useState({
-    color: "black",
-    background: "white",
-  });
-  const [btntext, setBtntext] = useState("Enable Dark mode");
-
-  const token = getCookie("Validtime");
   const headers = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`
   }
   
+  const [mystyle, setmystyle] = useState({
+    color: "black",
+    background: "white",
+  });
+  const [btntext, setBtntext] = useState("Enable Dark mode");
+  let navigate = useNavigate();
+  
+  const autoLogout = (token)=>{
+    if (token === null){
+      navigate('/')
+    }
+  }
 
  const getAllData = async () => {
   const getUsers = "http://localhost:3000/users";
   // console.log(props.token.token);
   try {
+    // axios.get(getUsers, {headers:headers});
+    //   .then((response) => {
+    //   const { data: { users } } = response();
+    //   console.log("users", users)
+    //   props.setFetchData(users)
+    //   ;
+    // })
+
     const response = await fetch(getUsers, {
       headers: {
         authorization: `Bearer ${token}`,
@@ -31,8 +47,6 @@ export default function About(props) {
     });
     const { data: { users } } = await response.json();
     console.log("users", users)
-  
-    // props.setItems(data);
     props.setFetchData(users)
     
   } catch (err) {
@@ -41,8 +55,8 @@ export default function About(props) {
 }
 
   useEffect( () => {
-    getAllData()
-
+      getAllData()
+      autoLogout(token)
   }, []);
 
   // Get All items from localstorages
@@ -61,13 +75,13 @@ export default function About(props) {
         color: "black",
         background: "white",
       });
-      setBtntext("Enable Light mode");
+      setBtntext("Enable Dark mode");
     } else {
       setmystyle({
         color: "white",
         background: "black",
       });
-      setBtntext("Enable Dark mode");
+      setBtntext("Enable Light mode");
     }
   };
 
@@ -83,9 +97,10 @@ export default function About(props) {
       })
       .then(() => {
         getAllData();
+        autoLogout();
       })
     }
-    
+
     // for local storage
       // localStorage.setItem("list", JSON.stringify(updatedItems));
       // props.setItems(updatedItems);
@@ -105,7 +120,7 @@ export default function About(props) {
 
 
   // Update button to navigate to home page
-  let navigate = useNavigate();
+
 
   //Edit button Api
   const editItem = (id) => {
@@ -138,6 +153,8 @@ export default function About(props) {
 
   return (
     <div className="container" style={mystyle}>
+      <Navbar title="TextUtiles" mode={props.mode} toggleMode={props.toggleMode} />
+      <Alert alert={props.alert} />
       <h2 className="my-2">Items</h2>
       <div className="accordion" id="accordionExample" style={mystyle}>
         {props.fetchData?.map((users) => {
