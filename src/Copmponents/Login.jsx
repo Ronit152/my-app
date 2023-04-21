@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 // import axios from 'axios';
 import '../css/login.css';
-// import '../css/addform.css';
 import {  useNavigate } from "react-router-dom";
-// import '../images/background.img';
-
 
 
 async function LoginUser(cred) {
-
 
   const res = await fetch("http://localhost:3000/login", {
     method: "POST",
@@ -65,7 +61,7 @@ export default function Login() {
     // props.setToken(res);
 
     if (!!res.token) {
-      setCookie("Token", res.token, 20);
+      setCookie("Token", res.token, 10);
       let path = "/dashboard";
       nevigate(path);
     } else {

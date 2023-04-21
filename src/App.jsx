@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import "./App.css";
-import About from "./Copmponents/About";
+import Dashboard from "./Copmponents/Dashboard";
 // import Navbar from "./Copmponents/Navbar";
 // import Alert from "./Copmponents/Alert";
-import TextForm from "./Copmponents/textform";
+import TextForm from "./Copmponents/Textform";
 import Login from "./Copmponents/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [mode, setMode] = useState("light");
+
   const [alert, setAlert] = useState(null);
   const [togglebtnText, setTogglebtnText] = useState(true);
   const [data, setData] = useState({ id: "", text: "", title: "" });
@@ -24,73 +23,53 @@ function App() {
     });
     setTimeout(() => {
       setAlert(null);
-    }, 5000);
+    }, 4000);
   };
 
-  const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-      document.body.style.backgroundColor = "grey";
-      // document.body.style.colorScheme = 'dark';
-      showAlert("Dark mode has been enabled", "success");
-    } else {
-      setMode("light");
-      document.body.style.backgroundColor = "#ffff";
-      // document.body.style.colorScheme = 'light';
 
-      showAlert("Light mode has been enabled", "success");
-    }
-  };
 
   return (
-    <>
-      <Router>
-        {/* <Navbar title="TextUtiles" mode={mode} toggleMode={toggleMode} />
-            <Alert alert={alert} /> */}
-        <div className="container">
-          <Routes>
-            <Route exact path="/" element={<Login />} />
-            <Route
-              exact
-              path="/dashboard"
-              element={
-                <About
-                  alert={alert}
-                  mode={mode}
-                  toggleMode={toggleMode}
-                  setFetchData={setFetchData}
-                  fetchData={fetchData}
-                  setData={setData}
-                  setTogglebtnText={setTogglebtnText}
-                  data={data}
-                />
-              }
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Login />} />
+        <Route
+          exact
+          path="/dashboard"
+          element={
+            <Dashboard
+              alert={alert}
+              setFetchData={setFetchData}
+              fetchData={fetchData}
+              setData={setData}
+              setTogglebtnText={setTogglebtnText}
+              togglebtnText = {togglebtnText}
+              data={data}
             />
-            <Route
-              exact
-              path="/add"
-              element={
-                <TextForm
-                  // itemsr={items}
-                  // setItems={setItems}
-                  toggleMode={toggleMode}
-                  alert={alert}
-                  setfetchData={setFetchData}
-                  fetchData={fetchData}
-                  setData={setData}
-                  data={data}
-                  togglebtnText={togglebtnText}
-                  setTogglebtnText={setTogglebtnText}
-                  showAlert={showAlert}
-                  heading="Enter the text to analyze"
-                  mode={mode}
-                />
-              }
+          }
+        />
+        <Route
+          exact
+          path="/add"
+          element={
+            <TextForm
+              // itemsr={items}
+              // setItems={setItems}
+
+              alert={alert}
+              setfetchData={setFetchData}
+              fetchData={fetchData}
+              setData={setData}
+              data={data}
+              togglebtnText={togglebtnText}
+              setTogglebtnText={setTogglebtnText}
+              showAlert={showAlert}
+              heading="Enter the text to analyze"
+
             />
-          </Routes>
-        </div>
-      </Router>
-    </>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -19,23 +19,21 @@ import { useNavigate } from "react-router-dom";
 export default function TextForm(props) {
   const token = getCookie("Token");
   const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  }
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
   const [response, setResponse] = useState({ id: "", text: "", title: "" });
 
   let navigate = useNavigate();
   const handleStore = () => {
     if (!response.title || !response.text) {
       return props.showAlert("You can't add empty data", "danger");
-
     } else if (props.data && !props.togglebtnText) {
       console.log(props.data);
       console.log(props.fetchData);
 
       props.fetchData.map((element) => {
         if (element.id === props.data.id) {
-
           handleUpdateuser(element.id);
 
           setResponse({ id: "", text: "", title: "" });
@@ -65,19 +63,17 @@ export default function TextForm(props) {
         }
       )
       .then(() => {
-        props.setData({id: "", title:'', text: ''})
+        props.setData({ id: "", title: "", text: "" });
         let path = `/dashboard`;
         navigate(path);
         props.setTogglebtnText(true);
       });
-
   };
 
   // set the data for update
   useEffect(() => {
     setResponse(props.data);
   }, [props.data]);
-
 
   // setItems to localstorage
   // useEffect(()=>{
@@ -87,7 +83,6 @@ export default function TextForm(props) {
   async function handleStoreInServer(items) {
     const token = getCookie("Token");
     const url = "http://localhost:3000/users";
-
 
     try {
       const res = await fetch(url, {
@@ -145,17 +140,20 @@ export default function TextForm(props) {
 
   return (
     <>
+      <Navbar
+        title="TextUtiles"
+        togglebtnText = {props.togglebtnText}
+      />
+      <Alert />
       <div className="container">
-      <Navbar title="TextUtiles" mode={props.mode} toggleMode={props.toggleMode} />
-            <Alert alert={props.alert} />
         <h1>{props.heading}</h1>
         <div className="mb-3">
           <textarea
             value={response.title}
             className="form-control"
             style={{
-              backgroundColor: props.mode === "light" ? "white" : "grey",
-              color: props.mode === "light" ? "black" : "white",
+              backgroundColor: props.mode === "light" ? "lightgrey" : "white",
+              color: "black",
             }}
             rows="1"
             placeholder="Title here"
@@ -169,8 +167,8 @@ export default function TextForm(props) {
             className="form-control"
             id="mybox"
             style={{
-              backgroundColor: props.mode === "light" ? "white" : "grey",
-              color: props.mode === "light" ? "black" : "white",
+              backgroundColor: props.mode === "light" ? "lightgrey" : "white",
+              color: "black",
             }}
             rows="6"
             placeholder="Enter text here"
@@ -178,13 +176,13 @@ export default function TextForm(props) {
           ></textarea>
         </div>
 
-        <button className="btn btn-primary mx-1" onClick={handleStore}>
+        <button className="btn btn-secondary mx-1" onClick={handleStore}>
           {props.togglebtnText ? "Save data" : "Update"}
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleUpClick}>
+        <button className="btn btn-secondary mx-1" onClick={handleUpClick}>
           Convert to uppercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleCleartext}>
+        <button className="btn btn-secondary mx-1" onClick={handleCleartext}>
           Clear Text
         </button>
       </div>
