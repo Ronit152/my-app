@@ -9,16 +9,13 @@ export default function Navbar(props) {
   const [mode, setMode] = useState("light");
 
   const toggleMode = () => {
+    props.togglestyle();
     if (mode === "light") {
       setMode("dark");
       document.body.style.backgroundColor = "lightgrey";
-
-      // showAlert("Dark mode has been enabled", "success");
     } else {
       setMode("light");
       document.body.style.backgroundColor = "#ffff";
-
-      // showAlert("Light mode has been enabled", "success");
     }
   };
 
@@ -32,10 +29,8 @@ export default function Navbar(props) {
       navigate('/add')
       
     }else{
-      console.log(props.response)
-      props.setResponse({ id: "", text: "", title: "" });
+      // props.setResponse({ id: "", text: "", title: "" });
       props.setData({ id: "", text: "", title: "" });
-      console.log('response' , props.response)
       props.setTogglebtnText(true)
   }}
 

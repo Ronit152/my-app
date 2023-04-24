@@ -17,7 +17,7 @@ export default function Dashboard(props) {
     color: "black",
     background: "white",
   });
-  const [btntext, setBtntext] = useState("Enable Dark mode");
+  // const [btntext, setBtntext] = useState("Enable Dark mode");
   let navigate = useNavigate();
 
   const autoLogout = (token) => {
@@ -55,7 +55,7 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     getAllData();
-    autoLogout(token);
+    // autoLogout(token);
   }, []);
 
   // Get All items from localstorages
@@ -73,19 +73,19 @@ export default function Dashboard(props) {
         color: "black",
         background: "white",
       });
-      setBtntext("Enable Dark mode");
+
     } else {
       setmystyle({
         color: "white",
         background: "black",
       });
-      setBtntext("Enable Light mode");
+
     }
   };
 
   const deleteItem = (id) => {
     const confirmBox = window.confirm(
-      "Do you really want to delete this Crumb?"
+      "Do you really want to delete this Item?"
     );
     if (confirmBox === true) {
       axios
@@ -119,7 +119,7 @@ export default function Dashboard(props) {
 
   //Edit button Api
   const editItem = (id) => {
-    const confirmBox = window.confirm("Do you really want to edit this Crumb?");
+    const confirmBox = window.confirm("Do you really want to edit this Item?");
     if (confirmBox === true) {
       axios
         .get(`http://localhost:3000/users/${id}`, {
@@ -149,18 +149,19 @@ export default function Dashboard(props) {
       <Navbar
         title="TextUtiles"
         togglebtnText = {props.togglebtnText}
+        togglestyle={togglestyle}
       />
       <Alert alert={props.alert} />
 
-      <div className="container" style={mystyle}>
-        <h2 className="my-2">Items</h2>
+      <div className="container py-2" style={mystyle}>
+        <h2 className="my-1">Items</h2>
         <div className="accordion" id="accordionExample" style={mystyle}>
           {props.fetchData?.map((users) => {
             return (
               <div className="accordion-item " style={mystyle} key={users.id}>
                 <h2 className="accordion-header">
                   <div>
-                    <button
+                    <div
                       className="accordion-button "
                       type="button"
                       data-bs-toggle="collapse"
@@ -175,18 +176,21 @@ export default function Dashboard(props) {
                           <button
                             onClick={() => deleteItem(users.id)}
                             className="btn btn-secondary mx-2"
+                            data-bs-toggle=""
+                            aria-expanded="false"
                           >
                             Delete
                           </button>
                           <button
                             onClick={() => editItem(users.id)}
                             className="btn btn-secondary mx-2"
+
                           >
                             Edit
                           </button>
                         </div>
                       </div>
-                    </button>
+                    </div>
                   </div>
                 </h2>
                 <div
@@ -202,9 +206,9 @@ export default function Dashboard(props) {
             );
           })}
 
-          <button onClick={togglestyle} className="btn btn-secondary my-3">
+          {/* <button onClick={togglestyle} className="btn btn-secondary my-3">
             {btntext}
-          </button>
+          </button> */}
 
           {/* <button onClick={removeAllItems} className="btn btn-primary my-3 mx-3">
                 Remove All

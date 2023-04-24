@@ -45,9 +45,10 @@ export default function TextForm(props) {
 
       // handleStoreInServer(response)
     } else {
-      setResponse({ id: "", text: "", title: "" });
 
-      handleStoreInServer(response); 
+      handleStoreInServer(response);
+       
+      setResponse({ id:"" , text: "", title: "" });
       let path = `/dashboard`;
       navigate(path);
     }
@@ -103,16 +104,17 @@ export default function TextForm(props) {
   }
 
   //set id to data
-  useEffect(() => {
-    setResponse((prevState) => ({
-      ...prevState,
-      id: new Date().getTime().toString(),
-    }));
-    if(token === null){
-      let path = `/`;
-      navigate(path);
-    }
-  }, [response.text]);
+  // useEffect(() => {
+  //   setResponse((prevState) => ({
+  //     ...prevState,
+  //     id: new Date().getTime().toString(),
+  //   }));
+  //   console.log(response)
+  //   // if(token === null){
+  //   //   let path = `/`;
+  //   //   navigate(path);
+  //   }
+  // }, [response.text]);
 
   // uppercasebutton
   const handleUpClick = () => {
@@ -140,7 +142,8 @@ export default function TextForm(props) {
   };
 
   const handleTitleOnChange = (e) => {
-    setResponse((prevState) => ({ ...prevState, title: e.target.value }));
+    const id = new Date().getTime().toString();
+    setResponse((prevState) => ({ ...prevState,id: id, title: e.target.value }));
   };
 
   return (
@@ -154,7 +157,7 @@ export default function TextForm(props) {
         data={props.data}
         setData={props.setData}
       />
-      <Alert />
+      <Alert alert={props.alert}/>
       <div className="container">
         <h1>{props.heading}</h1>
         <div className="mb-3">

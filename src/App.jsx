@@ -12,9 +12,8 @@ function App() {
   const [togglebtnText, setTogglebtnText] = useState(true);
   const [data, setData] = useState({ id: "", text: "", title: "" });
 
-  // const [token, setToken] = useState("");
   const [fetchData, setFetchData] = useState([]);
-  // const [items, setItems] = useState([]);
+
 
   const showAlert = (message, type) => {
     setAlert({
@@ -25,7 +24,6 @@ function App() {
       setAlert(null);
     }, 4000);
   };
-
 
 
   return (
