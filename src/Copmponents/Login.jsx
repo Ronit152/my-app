@@ -40,6 +40,8 @@ export const getCookie = (cookie_name) => {
 //    // 'Authorization': `bearer ${token}`,
 
 export default function Login() {
+  const [cred, setCred] = useState({ username: "", password: "" });
+  
   const handleUserOnChange = (event) => {
     setCred((prevState) => ({ ...prevState, username: event.target.value }));
   };
@@ -48,7 +50,6 @@ export default function Login() {
     setCred((prevState) => ({ ...prevState, password: e.target.value }));
   };
 
-  const [cred, setCred] = useState({ username: "", password: "" });
 
   let nevigate = useNavigate();
 

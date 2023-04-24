@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "./Login";
 import axios from "axios";
@@ -26,7 +26,7 @@ export default function Dashboard(props) {
     }
   };
 
-  const getAllData = async () => {
+  const getAllData =  useCallback( async () => {
     const getUsers = "http://localhost:3000/users";
     // console.log(props.token.token);
     try {
@@ -51,12 +51,12 @@ export default function Dashboard(props) {
     } catch (err) {
       console.log(err.message);
     }
-  };
+  },[props,token])
 
   useEffect(() => {
     getAllData();
     // autoLogout(token);
-  }, []);
+  }, [getAllData]);
 
   // Get All items from localstorages
   // useEffect(() => {
