@@ -6,7 +6,7 @@ import {  useNavigate } from "react-router-dom";
 
 async function LoginUser(cred) {
 
-  const res = await fetch("http://localhost:3000/login", {
+  const res = await fetch("https://server-kdmc.onrender.com:3000/login", {
     method: "POST",
     body: JSON.stringify(cred),
     headers: {

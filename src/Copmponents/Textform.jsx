@@ -47,7 +47,7 @@ export default function TextForm(props) {
     } else {
 
       handleStoreInServer(response);
-       
+
       setResponse({ id:"" , text: "", title: "" });
       let path = `/dashboard`;
       navigate(path);
@@ -57,7 +57,7 @@ export default function TextForm(props) {
   const handleUpdateuser = async (id) => {
     axios
       .put(
-        `http://localhost:3000/users/${id}`,
+        `https://server-kdmc.onrender.com:3000/users/${id}`,
         { user: response },
         {
           headers: headers,
@@ -84,7 +84,7 @@ export default function TextForm(props) {
 
   async function handleStoreInServer(items) {
     const token = getCookie("Token");
-    const url = "http://localhost:3000/users";
+    const url = "https://server-kdmc.onrender.com:3000/users";
 
     try {
       const res = await fetch(url, {
