@@ -27,7 +27,7 @@ export default function Dashboard(props) {
   };
 
   const getAllData =  useCallback( async () => {
-    const getUsers = "https://server-kdmc.onrender.com:3000/users";
+    const getUsers = "https://server-kdmc.onrender.com/users";
     // console.log(props.token.token);
     try {
       // axios.get(getUsers, {headers:headers});
@@ -89,7 +89,7 @@ export default function Dashboard(props) {
     );
     if (confirmBox === true) {
       axios
-        .delete(`https://server-kdmc.onrender.com:3000/users/${id}`, {
+        .delete(`https://server-kdmc.onrender.com/users/${id}`, {
           headers: headers,
         })
         .then(() => {
@@ -122,7 +122,7 @@ export default function Dashboard(props) {
     const confirmBox = window.confirm("Do you really want to edit this Item?");
     if (confirmBox === true) {
       axios
-        .get(`https://server-kdmc.onrender.com:3000/users/${id}`, {
+        .get(`https://server-kdmc.onrender.com/users/${id}`, {
           headers: headers,
         })
         .then((response) => {
