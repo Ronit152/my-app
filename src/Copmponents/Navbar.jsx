@@ -1,7 +1,10 @@
 import React , {useState} from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Navbar(props) {
+  let navigate = useNavigate();
 
   const [mode, setMode] = useState("light");
 
@@ -19,12 +22,29 @@ export default function Navbar(props) {
     }
   };
 
+  const handleLogout = () => {
+    document.cookie = "Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  }
+
+  const handleAdd = () => {
+    // console.log(props.data)
+    if(props.data === null || props.data === undefined){
+      navigate('/add')
+      
+    }else{
+      console.log(props.response)
+      props.setResponse({ id: "", text: "", title: "" });
+      props.setData({ id: "", text: "", title: "" });
+      console.log('response' , props.response)
+      props.setTogglebtnText(true)
+  }}
+
   return (
     <nav
       className={`navbar navbar-expand-lg navbar-${mode} bg-${mode}`}
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <a className="navbar-brand" href="/" onClick={handleLogout}>
           {props.title}
         </a>
         <button
@@ -44,7 +64,7 @@ export default function Navbar(props) {
               <NavLink  to="/dashboard"  >
                 {({ isActive }) => (
                   <span
-                    className={isActive ? "nav-link text-decoration-none active" : "nav-link text-decoration-none"}
+                    className={isActive ? "nav-link  active" : "nav-link "}
                   >
                     Dashboard
                   </span>
@@ -57,11 +77,11 @@ export default function Navbar(props) {
                 
                 aria-current="page"
                 to="/add"
-                
+                onClick={handleAdd}  
               >
                 {({ isActive }) => (
                   <span
-                    className={props.togglebtnText === true ? isActive ? "nav-link active" : "nav-link" : "invisible"  }
+                    className={ isActive ? "nav-link active" : "nav-link"  }
                   >
                   Add new
                   </span>

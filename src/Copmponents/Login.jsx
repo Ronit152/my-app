@@ -17,7 +17,7 @@ async function LoginUser(cred) {
   return data
 }
 
-const setCookie = (cookie_name, value, exminute) => {
+export const setCookie = (cookie_name, value, exminute) => {
   let extime = new Date();
 
   extime.setMinutes(extime.getMinutes() + exminute);

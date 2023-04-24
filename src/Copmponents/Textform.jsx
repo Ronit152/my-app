@@ -25,6 +25,7 @@ export default function TextForm(props) {
   const [response, setResponse] = useState({ id: "", text: "", title: "" });
 
   let navigate = useNavigate();
+
   const handleStore = () => {
     if (!response.title || !response.text) {
       return props.showAlert("You can't add empty data", "danger");
@@ -44,10 +45,9 @@ export default function TextForm(props) {
 
       // handleStoreInServer(response)
     } else {
-      console.log(response);
-
-      handleStoreInServer(response);
       setResponse({ id: "", text: "", title: "" });
+
+      handleStoreInServer(response); 
       let path = `/dashboard`;
       navigate(path);
     }
@@ -64,6 +64,7 @@ export default function TextForm(props) {
       )
       .then(() => {
         props.setData({ id: "", title: "", text: "" });
+        setResponse({ id: "", title: "", text: "" });
         let path = `/dashboard`;
         navigate(path);
         props.setTogglebtnText(true);
@@ -107,6 +108,10 @@ export default function TextForm(props) {
       ...prevState,
       id: new Date().getTime().toString(),
     }));
+    if(token === null){
+      let path = `/`;
+      navigate(path);
+    }
   }, [response.text]);
 
   // uppercasebutton
@@ -143,6 +148,11 @@ export default function TextForm(props) {
       <Navbar
         title="TextUtiles"
         togglebtnText = {props.togglebtnText}
+        setTogglebtnText={props.setTogglebtnText}
+        setResponse={setResponse}   
+        response = {response}
+        data={props.data}
+        setData={props.setData}
       />
       <Alert />
       <div className="container">

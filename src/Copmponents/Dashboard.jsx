@@ -46,7 +46,7 @@ export default function Dashboard(props) {
       const {
         data: { users },
       } = await response.json();
-      console.log("users", users);
+      // console.log("users", users);
       props.setFetchData(users);
     } catch (err) {
       console.log(err.message);
@@ -129,8 +129,6 @@ export default function Dashboard(props) {
           console.log(response.data);
           const data = response.data.data;
 
-          console.log({ id: data.id, title: data.title, text: data.text });
-
           props.setData({ id: data.id, title: data.title, text: data.text });
 
           let path = `/add`;
@@ -196,7 +194,7 @@ export default function Dashboard(props) {
                   className="accordion-collapse collapse show}"
                   data-bs-parent="#accordionExample"
                 >
-                  <div className="accordion-body bg-light" style={mystyle}>
+                  <div className="accordion-body " style={mystyle}>
                     {users.text}
                   </div>
                 </div>
